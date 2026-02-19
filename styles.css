@@ -1,0 +1,231 @@
+/* ============================================================
+   Slack View Customizer - Styles
+   ============================================================ */
+
+/* --- Transition for smooth collapse/expand --- */
+.p-ia4_top_nav,
+.p-view_header,
+[class*="tabbed_channel"]>[role="tablist"],
+[class*="tabbed_channel"]>.c-tabs,
+[class*="tabbed_channel"]>[class*="c-tabs__tab_bar"],
+.p-tab_bar,
+.c-tabs__tab_bar {
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease,
+    border-width 0.3s ease;
+  overflow: hidden;
+}
+
+/* --- TOP Collapsed State --- */
+body.slack-vc--top-collapsed .p-ia4_top_nav {
+  max-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+  border-bottom-width: 0 !important;
+}
+
+body.slack-vc--top-collapsed .p-view_header {
+  max-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+  border-bottom-width: 0 !important;
+}
+
+/* Tab bar (メッセージ, リンク, ファイル, ピン, +) */
+body.slack-vc--top-collapsed [class*="tabbed_channel"]>[role="tablist"],
+body.slack-vc--top-collapsed [class*="tabbed_channel"]>.c-tabs,
+body.slack-vc--top-collapsed [class*="tabbed_channel"]>[class*="c-tabs__tab_bar"],
+body.slack-vc--top-collapsed .p-tab_bar,
+body.slack-vc--top-collapsed .c-tabs__tab_bar,
+body.slack-vc--top-collapsed [role="tablist"][class*="c-tabs"] {
+  max-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+  border-bottom-width: 0 !important;
+  border-top-width: 0 !important;
+}
+
+/* Also collapse the tab wrapper that may have its own padding/borders */
+body.slack-vc--top-collapsed .p-view_header--with-channel-tabs {
+  max-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+/* Catch-all: any element with a tablist role inside the primary view */
+body.slack-vc--top-collapsed .p-view_contents--primary [role="tablist"] {
+  max-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border: none !important;
+}
+
+/* --- BOTTOM Collapsed State --- */
+.p-message_pane_input {
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    margin 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+body.slack-vc--bottom-collapsed .p-message_pane_input {
+  max-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Also hide the footer area that wraps the input */
+.workspace__primary_view_footer,
+[class*="primary_view_footer"] {
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    margin 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease;
+}
+
+body.slack-vc--bottom-collapsed .workspace__primary_view_footer,
+body.slack-vc--bottom-collapsed [class*="primary_view_footer"] {
+  max-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Toggle Buttons - Shared Base Styles
+   ============================================================ */
+.slack-vc-toggle-btn {
+  position: fixed;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--dt_color-theme-content-inv-sec, rgba(227, 206, 235, 0.8));
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s ease, color 0.15s ease, opacity 0.3s ease,
+    top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.6;
+}
+
+.slack-vc-toggle-btn:hover {
+  background: var(--dt_color-theme-surf-inv-pry, rgba(216, 186, 225, 0.25));
+  color: var(--dt_color-theme-content-inv-pry, rgba(248, 248, 248, 1));
+  opacity: 1;
+}
+
+.slack-vc-toggle-btn:active {
+  background: var(--dt_color-theme-surf-inv-pry-pressed, rgba(239, 225, 245, 0.18));
+}
+
+.slack-vc-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- TOP toggle button position --- */
+.slack-vc-toggle-btn--top {
+  top: 6px;
+  right: 60px;
+}
+
+body.slack-vc--top-collapsed .slack-vc-toggle-btn--top {
+  top: 4px;
+  right: 12px;
+  opacity: 0.45;
+}
+
+body.slack-vc--top-collapsed .slack-vc-toggle-btn--top:hover {
+  opacity: 1;
+}
+
+body.slack-vc--top-collapsed .slack-vc-toggle-btn--top svg {
+  transform: rotate(180deg);
+}
+
+/* --- BOTTOM toggle button position --- */
+.slack-vc-toggle-btn--bottom {
+  bottom: 8px;
+  right: 12px;
+  color: var(--sk_foreground_max_solid, #d1d2d3);
+}
+
+body.slack-vc--bottom-collapsed .slack-vc-toggle-btn--bottom {
+  bottom: 4px;
+  opacity: 0.45;
+}
+
+body.slack-vc--bottom-collapsed .slack-vc-toggle-btn--bottom:hover {
+  opacity: 1;
+}
+
+body.slack-vc--bottom-collapsed .slack-vc-toggle-btn--bottom svg {
+  transform: rotate(180deg);
+}
+
+/* --- Tooltip (shared) --- */
+.slack-vc-toggle-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: 0;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  font-size: 12px;
+  font-family: 'Slack-Lato', 'Lato', sans-serif;
+  white-space: nowrap;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.slack-vc-toggle-btn--top::after {
+  top: 100%;
+  margin-top: 6px;
+  transform: translateY(-4px);
+}
+
+.slack-vc-toggle-btn--bottom::after {
+  bottom: 100%;
+  margin-bottom: 6px;
+  transform: translateY(4px);
+}
+
+.slack-vc-toggle-btn:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
