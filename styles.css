@@ -117,6 +117,26 @@ body.slack-vc--bottom-collapsed [class*="primary_view_footer"] {
   overflow: hidden;
 }
 
+/* --- LEFT Collapsed State --- */
+/* Slack IA4 uses CSS Grid on .p-ia4_client with:
+   grid-template-columns: var(--p-ia4_tab_rail_width, 68px) var(--p-ia4_sidebar_width) 1fr;
+   We override --p-ia4_sidebar_width to 0px to collapse the sidebar column. */
+body.slack-vc--left-collapsed .p-ia4_client {
+  --p-ia4_sidebar_width: 0px !important;
+}
+
+body.slack-vc--left-collapsed .p-ia4_client__sidebar {
+  width: 0px !important;
+  min-width: 0px !important;
+  max-width: 0px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
 /* ============================================================
    Toggle Buttons - Shared Base Styles
    ============================================================ */
@@ -159,21 +179,17 @@ body.slack-vc--bottom-collapsed [class*="primary_view_footer"] {
 /* --- TOP toggle button position --- */
 .slack-vc-toggle-btn--top {
   top: 6px;
-  right: 60px;
+  right: 140px;
 }
 
 body.slack-vc--top-collapsed .slack-vc-toggle-btn--top {
   top: 4px;
-  right: 12px;
+  right: 140px;
   opacity: 0.45;
 }
 
 body.slack-vc--top-collapsed .slack-vc-toggle-btn--top:hover {
   opacity: 1;
-}
-
-body.slack-vc--top-collapsed .slack-vc-toggle-btn--top svg {
-  transform: rotate(180deg);
 }
 
 /* --- BOTTOM toggle button position --- */
@@ -192,8 +208,23 @@ body.slack-vc--bottom-collapsed .slack-vc-toggle-btn--bottom:hover {
   opacity: 1;
 }
 
-body.slack-vc--bottom-collapsed .slack-vc-toggle-btn--bottom svg {
-  transform: rotate(180deg);
+/* --- LEFT toggle button position --- */
+/* When expanded: placed inside sidebar header area, near the compose button */
+.slack-vc-toggle-btn--left {
+  top: 12px;
+  left: 200px;
+  transform: none;
+}
+
+/* When collapsed: placed at far left edge */
+body.slack-vc--left-collapsed .slack-vc-toggle-btn--left {
+  left: 72px;
+  top: 12px;
+  opacity: 0.45;
+}
+
+body.slack-vc--left-collapsed .slack-vc-toggle-btn--left:hover {
+  opacity: 1;
 }
 
 /* --- Tooltip (shared) --- */
@@ -225,7 +256,20 @@ body.slack-vc--bottom-collapsed .slack-vc-toggle-btn--bottom svg {
   transform: translateY(4px);
 }
 
+.slack-vc-toggle-btn--left::after {
+  left: 100%;
+  margin-left: 6px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+}
+
 .slack-vc-toggle-btn:hover::after {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) translateX(0);
+  /* Reset translations on hover */
+}
+
+/* Specific resets for hover translation to maintain correct centered alignment */
+.slack-vc-toggle-btn--left:hover::after {
+  transform: translateY(-50%) translateX(0);
 }

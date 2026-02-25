@@ -14,10 +14,13 @@
   // --- Constants ---
   const STORAGE_KEY_TOP = 'slack-vc-top-collapsed';
   const STORAGE_KEY_BOTTOM = 'slack-vc-bottom-collapsed';
+  const STORAGE_KEY_LEFT = 'slack-vc-left-collapsed';
   const CLASS_TOP = 'slack-vc--top-collapsed';
   const CLASS_BOTTOM = 'slack-vc--bottom-collapsed';
+  const CLASS_LEFT = 'slack-vc--left-collapsed';
   const BTN_TOP_ID = 'slack-vc-toggle-btn-top';
   const BTN_BOTTOM_ID = 'slack-vc-toggle-btn-bottom';
+  const BTN_LEFT_ID = 'slack-vc-toggle-btn-left';
 
   // --- SVG Icons ---
   const ICON_UP = `
@@ -29,6 +32,18 @@
   const ICON_DOWN = `
     <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 6L8 11L13 6" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+
+  const ICON_LEFT = `
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+
+  const ICON_RIGHT = `
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.8"
             stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`;
 
@@ -70,7 +85,7 @@
   function applyTopState(collapsed, btn) {
     document.body.classList.toggle(CLASS_TOP, collapsed);
     if (btn) {
-      // When collapsed, show down-arrow (to expand); when expanded, show up-arrow (to collapse)
+      // When top is collapsed, show down-arrow (to expand); when expanded, show up-arrow (to collapse)
       btn.innerHTML = collapsed ? ICON_DOWN : ICON_UP;
       const label = collapsed ? 'ヘッダーを表示' : 'ヘッダーを非表示';
       btn.setAttribute('data-tooltip', label);
@@ -84,11 +99,46 @@
   function applyBottomState(collapsed, btn) {
     document.body.classList.toggle(CLASS_BOTTOM, collapsed);
     if (btn) {
-      // When collapsed, show up-arrow (to expand upward); when expanded, show down-arrow (to collapse downward)
+      // When bottom is collapsed, show up-arrow (to expand); when expanded, show down-arrow (to collapse)
       btn.innerHTML = collapsed ? ICON_UP : ICON_DOWN;
       const label = collapsed ? '入力エリアを表示' : '入力エリアを非表示';
       btn.setAttribute('data-tooltip', label);
       btn.setAttribute('aria-label', label);
+    }
+  }
+
+  /**
+   * Apply left collapse state.
+   * Uses CSS class toggle - the actual hiding is done via CSS overrides
+   * on .p-ia4_client (--p-ia4_sidebar_width: 0px) and .p-ia4_client__sidebar.
+   */
+  function applyLeftState(collapsed, btn) {
+    document.body.classList.toggle(CLASS_LEFT, collapsed);
+
+    if (btn) {
+      btn.innerHTML = collapsed ? ICON_RIGHT : ICON_LEFT;
+      const label = collapsed ? 'サイドバーを表示' : 'サイドバーを非表示';
+      btn.setAttribute('data-tooltip', label);
+      btn.setAttribute('aria-label', label);
+
+      // Position the button dynamically
+      if (!collapsed) {
+        // When expanded, place near the compose button in the sidebar header
+        const sidebar = document.querySelector('.p-ia4_client__sidebar');
+        if (sidebar) {
+          const rect = sidebar.getBoundingClientRect();
+          btn.style.left = (rect.right - 60) + 'px';
+          btn.style.top = '12px';
+        }
+      } else {
+        // When collapsed, place just right of the tab rail
+        const tabRail = document.querySelector('.p-ia4_tab_rail');
+        if (tabRail) {
+          const rect = tabRail.getBoundingClientRect();
+          btn.style.left = (rect.right + 4) + 'px';
+          btn.style.top = '12px';
+        }
+      }
     }
   }
 
@@ -128,15 +178,33 @@
     return btn;
   }
 
+  function createLeftButton(initialCollapsed) {
+    const btn = document.createElement('button');
+    btn.id = BTN_LEFT_ID;
+    btn.className = 'slack-vc-toggle-btn slack-vc-toggle-btn--left';
+    btn.type = 'button';
+    applyLeftState(initialCollapsed, btn);
+
+    btn.addEventListener('click', () => {
+      const nowCollapsed = document.body.classList.contains(CLASS_LEFT);
+      const newState = !nowCollapsed;
+      applyLeftState(newState, btn);
+      setStoredState(STORAGE_KEY_LEFT, newState);
+    });
+
+    return btn;
+  }
+
   // --- Initialization ---
 
   async function init() {
     // Prevent duplicate injection
     if (document.getElementById(BTN_TOP_ID)) return;
 
-    const [topCollapsed, bottomCollapsed] = await Promise.all([
+    const [topCollapsed, bottomCollapsed, leftCollapsed] = await Promise.all([
       getStoredState(STORAGE_KEY_TOP),
       getStoredState(STORAGE_KEY_BOTTOM),
+      getStoredState(STORAGE_KEY_LEFT),
     ]);
 
     // Wait for Slack's main container to appear
@@ -153,15 +221,18 @@
       if (container || elapsed >= maxWait) {
         clearInterval(waitForSlack);
 
-        // Create and inject both buttons
+        // Create and inject buttons
         const topBtn = createTopButton(topCollapsed);
         const bottomBtn = createBottomButton(bottomCollapsed);
+        const leftBtn = createLeftButton(leftCollapsed);
         document.body.appendChild(topBtn);
         document.body.appendChild(bottomBtn);
+        document.body.appendChild(leftBtn);
 
         // Apply initial states
         applyTopState(topCollapsed, topBtn);
         applyBottomState(bottomCollapsed, bottomBtn);
+        applyLeftState(leftCollapsed, leftBtn);
 
         if (!container && elapsed >= maxWait) {
           console.warn('[Slack VC] Timed out waiting for Slack UI. Buttons injected anyway.');
@@ -173,6 +244,7 @@
   // --- Keyboard shortcuts ---
   // Alt+Shift+H  = toggle top
   // Alt+Shift+J  = toggle bottom
+  // Alt+Shift+L  = toggle left sidebar
   document.addEventListener('keydown', (e) => {
     if (e.altKey && e.shiftKey) {
       if (e.key.toLowerCase() === 'h') {
@@ -182,6 +254,10 @@
       } else if (e.key.toLowerCase() === 'j') {
         e.preventDefault();
         const btn = document.getElementById(BTN_BOTTOM_ID);
+        if (btn) btn.click();
+      } else if (e.key.toLowerCase() === 'l') {
+        e.preventDefault();
+        const btn = document.getElementById(BTN_LEFT_ID);
         if (btn) btn.click();
       }
     }

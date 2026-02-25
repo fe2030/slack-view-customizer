@@ -1,0 +1,70 @@
+<svg width="1280" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1280" height="800" fill="#1A1D21" />
+
+  <!-- Sidebar (Left) -->
+  <rect width="260" height="800" fill="#121417" />
+  <!-- Sidebar Items -->
+  <rect x="20" y="20" width="140" height="30" rx="4" fill="#E8E8E8" opacity="0.1" />
+  <rect x="20" y="80" width="220" height="20" rx="4" fill="#ABABAD" opacity="0.1" />
+  <rect x="20" y="110" width="200" height="20" rx="4" fill="#ABABAD" opacity="0.1" />
+  <rect x="20" y="140" width="210" height="20" rx="4" fill="#ABABAD" opacity="0.1" />
+  <rect x="20" y="170" width="180" height="20" rx="4" fill="#ABABAD" opacity="0.1" />
+
+  <!-- Main Content Area -->
+  <!-- Top Header is collapsed (hidden), so messages start high up -->
+  
+  <!-- Message 1 -->
+  <circle cx="300" cy="50" r="20" fill="#D1D2D3" />
+  <rect x="330" y="35" width="100" height="15" rx="4" fill="#D1D2D3" />
+  <rect x="330" y="60" width="600" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+  <rect x="330" y="85" width="500" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+
+  <!-- Message 2 -->
+  <circle cx="300" cy="150" r="20" fill="#E01E5A" opacity="0.8" />
+  <rect x="330" y="135" width="120" height="15" rx="4" fill="#D1D2D3" />
+  <rect x="330" y="160" width="700" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+  <rect x="330" y="185" width="400" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+  <rect x="330" y="210" width="300" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+
+  <!-- Message 3 -->
+  <circle cx="300" cy="280" r="20" fill="#36C5F0" opacity="0.8" />
+  <rect x="330" y="265" width="80" height="15" rx="4" fill="#D1D2D3" />
+  <rect x="330" y="290" width="800" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+
+  <!-- Message 4 -->
+  <circle cx="300" cy="360" r="20" fill="#2EB67D" opacity="0.8" />
+  <rect x="330" y="345" width="110" height="15" rx="4" fill="#D1D2D3" />
+  <rect x="330" y="370" width="650" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+  <rect x="330" y="395" width="550" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+
+  <!-- Message 5 (filling space to bottom since footer is collapsed) -->
+  <circle cx="300" cy="480" r="20" fill="#ECB22E" opacity="0.8" />
+  <rect x="330" y="465" width="130" height="15" rx="4" fill="#D1D2D3" />
+  <rect x="330" y="490" width="750" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+  <rect x="330" y="515" width="600" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+  <rect x="330" y="540" width="400" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+  
+   <circle cx="300" cy="620" r="20" fill="#ABABAD" opacity="0.8" />
+  <rect x="330" y="605" width="100" height="15" rx="4" fill="#D1D2D3" />
+  <rect x="330" y="630" width="500" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+  <rect x="330" y="655" width="800" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+  
+     <circle cx="300" cy="740" r="20" fill="#E01E5A" opacity="0.8" />
+  <rect x="330" y="725" width="120" height="15" rx="4" fill="#D1D2D3" />
+  <rect x="330" y="750" width="700" height="15" rx="4" fill="#ABABAD" opacity="0.8" />
+
+  <!-- Extension Toggle Buttons (Highlighted) -->
+  
+  <!-- Top Right Toggle -->
+  <circle cx="1240" cy="40" r="16" fill="transparent" stroke="#E3CEEB" stroke-width="2" />
+  <path d="M1235 43 L1240 37 L1245 43" stroke="#E3CEEB" stroke-width="2" fill="none" />
+  
+  <!-- Bottom Right Toggle -->
+  <circle cx="1240" cy="760" r="16" fill="transparent" stroke="#E3CEEB" stroke-width="2" />
+  <path d="M1235 757 L1240 763 L1245 757" stroke="#E3CEEB" stroke-width="2" fill="none" />
+
+  <!-- Text Label overlay (Optional, keeping it clean is better) -->
+  <text x="640" y="400" font-family="Arial, sans-serif" font-size="24" fill="white" opacity="0.05" text-anchor="middle">Slack View Customizer - Maximized Area</text>
+
+</svg>
