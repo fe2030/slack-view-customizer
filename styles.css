@@ -67,6 +67,7 @@ body.slack-vc--top-collapsed .p-view_header--with-channel-tabs {
   padding: 0 !important;
   margin: 0 !important;
   border: none !important;
+  display: none !important;
 }
 
 /* Catch-all: any element with a tablist role inside the primary view */
@@ -78,6 +79,7 @@ body.slack-vc--top-collapsed .p-view_contents--primary [role="tablist"] {
   pointer-events: none;
   overflow: hidden;
   border: none !important;
+  display: none !important;
 }
 
 /* --- BOTTOM Collapsed State --- */
@@ -115,6 +117,7 @@ body.slack-vc--bottom-collapsed [class*="primary_view_footer"] {
   opacity: 0;
   pointer-events: none;
   overflow: hidden;
+  display: none !important;
 }
 
 /* --- LEFT Collapsed State --- */
@@ -123,9 +126,12 @@ body.slack-vc--bottom-collapsed [class*="primary_view_footer"] {
    We override --p-ia4_sidebar_width to 0px to collapse the sidebar column. */
 body.slack-vc--left-collapsed .p-ia4_client {
   --p-ia4_sidebar_width: 0px !important;
+  --p-ia4_layout_gap: 0px !important;
+  gap: 0px !important;
 }
 
-body.slack-vc--left-collapsed .p-ia4_client__sidebar {
+body.slack-vc--left-collapsed .p-ia4_client__sidebar,
+body.slack-vc--left-collapsed .p-view_contents--sidebar {
   width: 0px !important;
   min-width: 0px !important;
   max-width: 0px !important;
@@ -135,6 +141,17 @@ body.slack-vc--left-collapsed .p-ia4_client__sidebar {
   padding: 0 !important;
   margin: 0 !important;
   border: none !important;
+  flex: 0 0 0px !important;
+}
+
+/* Force CSS grid to remove the track for the sidebar in new layout */
+body.slack-vc--left-collapsed .p-client_workspace__tabpanel {
+  grid-template-columns: 0px auto !important;
+  gap: 0px !important;
+}
+
+body.slack-vc--left-collapsed .p-ia4_client__resizer--sidebar {
+  display: none !important;
 }
 
 /* ============================================================
@@ -209,17 +226,13 @@ body.slack-vc--bottom-collapsed .slack-vc-toggle-btn--bottom:hover {
 }
 
 /* --- LEFT toggle button position --- */
-/* When expanded: placed inside sidebar header area, near the compose button */
+/* Position is calculated dynamically in content.js to be under "その他" */
 .slack-vc-toggle-btn--left {
-  top: 12px;
-  left: 200px;
   transform: none;
 }
 
-/* When collapsed: placed at far left edge */
+/* When collapsed: make it look fainter like other buttons */
 body.slack-vc--left-collapsed .slack-vc-toggle-btn--left {
-  left: 72px;
-  top: 12px;
   opacity: 0.45;
 }
 
@@ -272,4 +285,22 @@ body.slack-vc--left-collapsed .slack-vc-toggle-btn--left:hover {
 /* Specific resets for hover translation to maintain correct centered alignment */
 .slack-vc-toggle-btn--left:hover::after {
   transform: translateY(-50%) translateX(0);
+}
+
+/* --- TOP Collapsed Grid Adjustments --- */
+body.slack-vc--top-collapsed {
+  --p-ia4_top_nav_height: 0px !important;
+}
+
+body.slack-vc--top-collapsed .p-ia4_client {
+  grid-template-rows: 0px 1fr !important;
+}
+
+body.slack-vc--top-collapsed .p-ia4_client,
+body.slack-vc--top-collapsed .p-theme_background,
+body.slack-vc--top-collapsed .p-client_workspace_wrapper,
+body.slack-vc--top-collapsed .p-client_workspace,
+body.slack-vc--top-collapsed .p-client_workspace__layout {
+  height: 100vh !important;
+  min-height: 100vh !important;
 }

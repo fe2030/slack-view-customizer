@@ -110,7 +110,7 @@
   /**
    * Apply left collapse state.
    * Uses CSS class toggle - the actual hiding is done via CSS overrides
-   * on .p-ia4_client (--p-ia4_sidebar_width: 0px) and .p-ia4_client__sidebar.
+   * on .p-ia4_client (--p-ia4_sidebar_width: 0px).
    */
   function applyLeftState(collapsed, btn) {
     document.body.classList.toggle(CLASS_LEFT, collapsed);
@@ -121,26 +121,43 @@
       btn.setAttribute('data-tooltip', label);
       btn.setAttribute('aria-label', label);
 
-      // Position the button dynamically
-      if (!collapsed) {
-        // When expanded, place near the compose button in the sidebar header
-        const sidebar = document.querySelector('.p-ia4_client__sidebar');
-        if (sidebar) {
-          const rect = sidebar.getBoundingClientRect();
-          btn.style.left = (rect.right - 60) + 'px';
-          btn.style.top = '12px';
-        }
-      } else {
-        // When collapsed, place just right of the tab rail
-        const tabRail = document.querySelector('.p-ia4_tab_rail');
-        if (tabRail) {
-          const rect = tabRail.getBoundingClientRect();
-          btn.style.left = (rect.right + 4) + 'px';
-          btn.style.top = '12px';
-        }
-      }
+      btn.style.top = '50%';
+      btn.style.transform = 'translateY(-50%)';
     }
   }
+
+  // --- Left Button Positioning Interval ---
+  let lastLeftPos = '';
+  setInterval(() => {
+    const btn = document.getElementById(BTN_LEFT_ID);
+    if (!btn) return;
+
+    const collapsed = document.body.classList.contains(CLASS_LEFT);
+    let targetLeft = 0;
+
+    if (!collapsed) {
+      const resizer = document.querySelector('.p-ia4_client__resizer--sidebar');
+      const sidebar = document.querySelector('.p-view_contents--sidebar') || document.querySelector('.p-ia4_client__sidebar');
+      if (resizer && resizer.getBoundingClientRect().left > 0) {
+        targetLeft = resizer.getBoundingClientRect().left + 4 - 14;
+      } else if (sidebar) {
+        targetLeft = sidebar.getBoundingClientRect().right - 14;
+      }
+    } else {
+      const tabRail = document.querySelector('.p-tab_rail') || document.querySelector('.p-ia4_tab_rail');
+      if (tabRail) {
+        targetLeft = tabRail.getBoundingClientRect().right - 14;
+      }
+    }
+
+    if (targetLeft > 0) {
+      const newPos = targetLeft + 'px';
+      if (newPos !== lastLeftPos) {
+        btn.style.left = newPos;
+        lastLeftPos = newPos;
+      }
+    }
+  }, 100);
 
   // --- Button creation ---
 
@@ -233,6 +250,7 @@
         applyTopState(topCollapsed, topBtn);
         applyBottomState(bottomCollapsed, bottomBtn);
         applyLeftState(leftCollapsed, leftBtn);
+
 
         if (!container && elapsed >= maxWait) {
           console.warn('[Slack VC] Timed out waiting for Slack UI. Buttons injected anyway.');
