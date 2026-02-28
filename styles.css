@@ -49,7 +49,7 @@ body.slack-vc--top-collapsed [class*="tabbed_channel"]>.c-tabs,
 body.slack-vc--top-collapsed [class*="tabbed_channel"]>[class*="c-tabs__tab_bar"],
 body.slack-vc--top-collapsed .p-tab_bar,
 body.slack-vc--top-collapsed .c-tabs__tab_bar,
-body.slack-vc--top-collapsed [role="tablist"][class*="c-tabs"] {
+body.slack-vc--top-collapsed [role="tablist"][class*="c-tabs"]:not(.c-tabs__tab_menu--vertical) {
   max-height: 0 !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -292,15 +292,14 @@ body.slack-vc--top-collapsed {
   --p-ia4_top_nav_height: 0px !important;
 }
 
-body.slack-vc--top-collapsed .p-ia4_client {
-  grid-template-rows: 0px 1fr !important;
-}
-
-body.slack-vc--top-collapsed .p-ia4_client,
-body.slack-vc--top-collapsed .p-theme_background,
-body.slack-vc--top-collapsed .p-client_workspace_wrapper,
-body.slack-vc--top-collapsed .p-client_workspace,
-body.slack-vc--top-collapsed .p-client_workspace__layout {
+body.slack-vc--top-collapsed .p-client_workspace_wrapper {
   height: 100vh !important;
   min-height: 100vh !important;
+}
+
+/* Override max-height on view contents that normally subtract 44px for the top nav + padding */
+body.slack-vc--top-collapsed .p-view_contents--primary,
+body.slack-vc--top-collapsed .p-view_contents--secondary,
+body.slack-vc--top-collapsed .p-view_contents--sidebar {
+  max-height: calc(100vh - 4px) !important;
 }

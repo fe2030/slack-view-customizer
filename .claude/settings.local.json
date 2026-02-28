@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(powershell -Command \"$html = Get-Content -Path ''.\\\\z-ﾊ-飯田篤さん-（チャンネル） - チームシャイニー - Slack.html'' -Raw; $matches = [regex]::Matches\\($html, ''class=\"\"[^\"\"]*p-ia4_client[^\"\"]*\"\"''\\); foreach\\($m in $matches\\) { Write-Output $m.Value }\")"
+    ]
+  }
+}
